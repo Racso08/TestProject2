@@ -1,43 +1,43 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <iostream>
 
-unsigned char byte;
+using namespace std;
 
-int main(void) {
-    FILE *fin, *fout;
-    int val;
-    fin = fopen ("/home/racso/Project#2/Dura-REMIX.mp3","rb");
-    if (fin == NULL) {
-        printf("Error opening input file\n");
-        system("pause");
-        exit(1);
-    }
+typedef unsigned char BYTE;
 
-    fout = fopen ("newtext.txt","wb");
+long getFileSize(FILE *file)
+{
+    long lCurPos, lEndPos;
+    lCurPos = ftell(file);
+    fseek(file, 0, 2);
+    lEndPos = ftell(file);
+    fseek(file, lCurPos, 0);
+    return lEndPos;
+}
 
-    if (fout == NULL) {
-        printf("Error opening output file\n");
-        system("pause");
-        exit(1);
-    }
+int main()
+{
+    const char *filePath = "/home/racso/Project#2/Dura-REMIX.mp3";
+    BYTE *fileBuf;
+    FILE *file = NULL;
 
-    printf("Files opened, copying beginning.\n");
-    while(1) { //infinant loop
-        val = fgetc(fin);
+    if ((file = fopen(filePath, "rb")) == NULL)
+        cout << "Could not open specified file" << endl;
+    else
+        cout << "File opened successfully" << endl;
 
-        if (val == EOF)
-            break;
+    long fileSize = getFileSize(file);
 
-        byte = (unsigned char) val;
+    fileBuf = new BYTE[fileSize];
 
-        std::cout<<byte;
+    fread(fileBuf, fileSize, 1, file);
 
-        fputc(byte,fout);
-    }
+    for (int i = 0; i < 100; i++)
+        printf("%X ", fileBuf[i]);
 
-    printf("Copy successful!\n");
-    //system("pause");
+    cin.get();
+    delete[]fileBuf;
+    fclose(file);
+
     return 0;
-
 }
