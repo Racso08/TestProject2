@@ -7,8 +7,20 @@
 #IncludeRegexTransform: 
 
 /home/racso/Project#2/main.cpp
+iostream
+-
 stdio.h
 -
-iostream
+fstream
+-
+stdio.h
+-
+stdlib.h
+-
+sstream
+-
+string
+-
+limits.h
 -
 
