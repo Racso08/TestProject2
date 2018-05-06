@@ -17,8 +17,8 @@ long getFileSize(FILE *file)
 
 int main()
 {
-    const char *filePath = "/home/racso/Project#2/Dura-REMIX.mp3";
-    //BYTE *fileBuf;
+    const char *filePath = "/home/racso/Project#2/.mp3";
+    BYTE *fileBuf;
     FILE *file = NULL;
 
     if ((file = fopen(filePath, "rb")) == NULL)
@@ -28,17 +28,17 @@ int main()
 
     long fileSize = getFileSize(file);
 
-    //fileBuf = new BYTE[fileSize];
+    fileBuf = new BYTE[fileSize];
 
-    char *array = (char *)malloc(fileSize + 1);
+    //char *array = (char *)malloc(fileSize + 1);
 
-    fread(array , fileSize, 1, file);
+    fread(fileBuf , fileSize, 1, file);
 
-    for (int i = 0; i < 100; i++)
-        printf("%X ", array[i]);
+    for (int i = 0; i < 4096; i++)
+        printf("%X ", fileBuf[i]);
 
     //cin.get();
-    delete[]array;
+    delete[]fileBuf;
     fclose(file);
 
     return 0;
