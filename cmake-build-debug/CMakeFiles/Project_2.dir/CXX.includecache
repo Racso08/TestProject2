@@ -9,10 +9,6 @@
 /home/racso/Project#2/main.cpp
 iostream
 -
-stdio.h
--
-stdlib.h
--
-string
+fstream
 -
 
