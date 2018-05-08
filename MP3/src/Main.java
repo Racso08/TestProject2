@@ -3,6 +3,7 @@ import java.io.FileInputStream;
 
 import javazoom.jl.player.Player;
 
+//link de descarga de la libreria: http://www.javazoom.net/javalayer/sources.html
 
 class MP3 {
     private String filename;
