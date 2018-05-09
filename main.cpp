@@ -1,33 +1,50 @@
-#include <cstdio>
-#include "/home/racso/SDL/include/SDL.h"
-#include "/home/racso/Descargas/SDL2_mixer-2.0.2/SDL_mixer.h"
+#include <iostream>
+#include <fstream>
 
-static const char *MY_COOL_MP3 = "Bella.mp3";
+using namespace std;
 
-int main(int argc, char **argv) {
-    int result = 0;
-    int flags = MIX_INIT_MP3;
+void ReadFile(char *name)
+{
+    FILE *file;
+    char *buffer;
+    unsigned long fileLen;
 
-    if (SDL_Init(SDL_INIT_AUDIO) < 0) {
-        printf("Failed to init SDL\n");
-        exit(1);
+    //Open file
+    file = fopen(name, "rb");
+    if (!file)
+    {
+        fprintf(stderr, "Unable to open file %s", name);
+        return;
     }
 
-    if (flags != (result = Mix_Init(flags))) {
-        printf("Could not initialize mixer (result: %d).\n", result);
-        printf("Mix_Init: %s\n", Mix_GetError());
-        exit(1);
+    //Get file length
+    fseek(file, 0, SEEK_END);
+    fileLen=ftell(file);
+    fseek(file, 0, SEEK_SET);
+
+    //Allocate memory
+    buffer=(char *)malloc(fileLen+1);
+    if (!buffer)
+    {
+        fprintf(stderr, "Memory error!");
+        fclose(file);
+        return;
     }
 
-    Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 640);
-    Mix_Music *music = Mix_LoadMUS(MY_COOL_MP3);
-    Mix_PlayMusic(music, 1);
+    //Read file contents into buffer
+    fread(buffer, fileLen, 1, file);
+    fclose(file);
 
-    while (!SDL_QuitRequested()) {
-        SDL_Delay(250);
+    //Do what ever with buffer
+    for(int i = 0; i<200; i++){
+        printf("%X",buffer[i]);
     }
 
-    Mix_FreeMusic(music);
-    SDL_Quit();
+    free(buffer);
+}
+
+int main(){
+    cout<<"TEST"<<endl;
+    ReadFile("/home/racso/Project#2/Bella.mp3");
     return 0;
 }
