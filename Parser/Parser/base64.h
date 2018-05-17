@@ -8,11 +8,9 @@
 
 class base64
 {
-
-
       public:
-          base64() {} // Dummy for now because it is not the point
-
+          base64();
+          QByteArray read();
 };
 
 #endif // BASE64_H

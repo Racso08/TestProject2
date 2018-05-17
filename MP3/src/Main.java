@@ -1,6 +1,7 @@
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.Path;
 import javazoom.jl.player.Player;
 
 //link de descarga de la libreria: http://www.javazoom.net/javalayer/sources.html
@@ -11,19 +12,36 @@ class MP3 {
 
     // constructor that takes the name of an MP3 file
     public MP3(String filename) {
+
         this.filename = filename;
     }
 
-    public void close() { if (player != null) player.close(); }
+    public void close() {
+        if (player != null) player.close();
+    }
 
     // play the MP3 file to the sound card
     public void play() {
         try {
-            FileInputStream fis     = new FileInputStream(filename);
-            BufferedInputStream bis = new BufferedInputStream(fis);
+            File file = new File(filename);
+            //byte[] bytesArray = new byte[(int) file.length()];
+            byte[] bytesArray = new byte[7260924/2];    ///Testeo de la mitad de los bytes de la cancion
+
+            System.out.println((int) file.length());    /// cantidad total de bytes
+
+            FileInputStream fis = new FileInputStream(file);
+            fis.read(bytesArray); //read file into bytes[]
+            fis.close();
+
+            //for(int i = 0; i<bytesArray.length;i++){
+              //  System.out.println(bytesArray[i]);
+            //}
+
+            //FileInputStream fis = new FileInputStream(filename);
+            ByteArrayInputStream data = new ByteArrayInputStream(bytesArray);
+            BufferedInputStream bis = new BufferedInputStream(data);
             player = new Player(bis);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("Problem playing file " + filename);
             System.out.println(e);
         }
@@ -31,19 +49,21 @@ class MP3 {
         // run in new thread to play in background
         new Thread() {
             public void run() {
-                try { player.play(); }
-                catch (Exception e) { System.out.println(e); }
+                try {
+                    player.play();
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
             }
         }.start();
-
-
 
 
     }
 
 
     // test client
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        
         String filename = "/home/racso/Project#2/Bella.mp3";
         MP3 mp3 = new MP3(filename);
         mp3.play();
@@ -65,6 +85,7 @@ class MP3 {
         mp3 = new MP3(filename);
         mp3.play();
 
-    }
 
+
+    }
 }
