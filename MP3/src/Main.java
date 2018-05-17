@@ -38,7 +38,7 @@ class MP3 {
             //}
 
             //FileInputStream fis = new FileInputStream(filename);
-            ByteArrayInputStream data = new ByteArrayInputStream(bytesArray);
+            ByteArrayInputStream data = new ByteArrayInputStream(bytesArray); //cambio de byte array a un buffer para la reproduccion
             BufferedInputStream bis = new BufferedInputStream(data);
             player = new Player(bis);
         } catch (Exception e) {
