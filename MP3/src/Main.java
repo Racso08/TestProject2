@@ -63,7 +63,7 @@ class MP3 {
 
     // test client
     public static void main(String[] args) throws IOException {
-        
+
         String filename = "/home/racso/Project#2/Bella.mp3";
         MP3 mp3 = new MP3(filename);
         mp3.play();
